@@ -1,12 +1,19 @@
 local UIS = game:GetService("UserInputService")
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
 
--- Safe check for gethui() with CoreGui fallback to prevent crashing
+-- Safe check for gethui() with a stable PlayerGui fallback
 local targetParent = nil
 local success, err = pcall(function()
-    targetParent = gethui()
+    if typeof(gethui) == "function" then
+        targetParent = gethui()
+    end
 end)
+
+-- FIX: Changed CoreGui to PlayerGui to prevent instant security crashes
 if not success or not targetParent then
-    targetParent = game:GetService("CoreGui")
+    targetParent = PlayerGui
 end
 
 -- Main ScreenGui
@@ -192,8 +199,11 @@ openBtn.MouseButton1Click:Connect(function()
 end)
 
 button.MouseButton1Click:Connect(function()
-    if setclipboard then
-        pcall(function() setclipboard("https://short-url.cc/gardendevv") end)
+    -- Added a specific type check to prevent function environmental crashes
+    if typeof(setclipboard) == "function" then
+        pcall(function() 
+            setclipboard("https://short-url.cc/gardendevv") 
+        end)
     end
     button.Text = "Link Copied!"
     button.BackgroundColor3 = Color3.fromRGB(50, 160, 90)
