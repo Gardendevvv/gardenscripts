@@ -132,7 +132,7 @@ openBtn.MouseButton1Click:Connect(function()
 end)
 
 button.MouseButton1Click:Connect(function()
-    setclipboard("hello")
+    setclipboard("https://short-url.cc/1tCHH")
     button.Text = "Link Copied!"
     button.BackgroundColor3 = Color3.fromRGB(50, 160, 90)
     task.delay(2, function()
