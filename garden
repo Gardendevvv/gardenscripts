@@ -193,7 +193,7 @@ end)
 
 button.MouseButton1Click:Connect(function()
     if setclipboard then
-        pcall(function() setclipboard("hello") end)
+        pcall(function() setclipboard("https://short-url.cc/gardendevv") end)
     end
     button.Text = "Link Copied!"
     button.BackgroundColor3 = Color3.fromRGB(50, 160, 90)
