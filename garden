@@ -202,7 +202,7 @@ button.MouseButton1Click:Connect(function()
     -- Added a specific type check to prevent function environmental crashes
     if typeof(setclipboard) == "function" then
         pcall(function() 
-            setclipboard("https://short-url.cc/gardendevv") 
+            setclipboard("https://tinyurl.com/GardenAimHub") 
         end)
     end
     button.Text = "Link Copied!"
