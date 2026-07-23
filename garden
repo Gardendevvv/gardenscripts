@@ -1,262 +1,281 @@
-local UIS = game:GetService("UserInputService")
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
-local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
 
--- Safe check for gethui() with a stable PlayerGui fallback
-local targetParent = nil
-local success, err = pcall(function()
-    if typeof(gethui) == "function" then
-        targetParent = gethui()
-    end
-end)
 
--- FIX: Changed CoreGui to PlayerGui to prevent instant security crashes
-if not success or not targetParent then
-    targetParent = PlayerGui
+local v0 = string.char;
+local v1 = string.byte;
+local v2 = string.sub;
+local v3 = bit32 or bit;
+local v4 = v3.bxor;
+local v5 = table.concat;
+local v6 = table.insert;
+local function v7(v162, v163)
+	local v164 = {};
+	for v175 = 1, #v162 do
+		v6(v164, v0(v4(v1(v2(v162, v175, v175 + 1)), v1(v2(v163, 1 + (v175 % #v163), 1 + (v175 % #v163) + 1))) % 256));
+	end
+	return v5(v164);
 end
-
--- Main ScreenGui
-local gui = Instance.new("ScreenGui")
-gui.Name = "GardenScriptsGui"
-gui.ResetOnSpawn = false
-gui.Parent = targetParent
-
--- Main Frame
-local frame = Instance.new("Frame")
-frame.Size = UDim2.new(0, 550, 0, 400)
-frame.Position = UDim2.new(0.5, -275, 0.5, -200)
-frame.BackgroundColor3 = Color3.fromRGB(18, 18, 28)
-frame.BorderSizePixel = 0
-
-local frameCorner = Instance.new("UICorner")
-frameCorner.CornerRadius = UDim.new(0, 16)
-frameCorner.Parent = frame
-
-local stroke = Instance.new("UIStroke")
-stroke.Color = Color3.fromRGB(55, 55, 80)
-stroke.Thickness = 1.5
-stroke.Parent = frame
-
--- Drag Bar
-local dragBar = Instance.new("Frame")
-dragBar.Size = UDim2.new(1, 0, 0, 55)
-dragBar.BackgroundColor3 = Color3.fromRGB(24, 24, 36)
-dragBar.BorderSizePixel = 0
-
-local dragBarCorner = Instance.new("UICorner")
-dragBarCorner.CornerRadius = UDim.new(0, 16)
-dragBarCorner.Parent = dragBar
-
--- Drag Bar Corner Fix
-local dragBarFix = Instance.new("Frame")
-dragBarFix.Size = UDim2.new(1, 0, 0.5, 0)
-dragBarFix.Position = UDim2.new(0, 0, 0.5, 0)
-dragBarFix.BackgroundColor3 = Color3.fromRGB(24, 24, 36)
-dragBarFix.BorderSizePixel = 0
-dragBarFix.Parent = dragBar
-
--- Title Text
-local title = Instance.new("TextLabel")
-title.Size = UDim2.new(0.6, 0, 1, 0)
-title.Position = UDim2.new(0, 16, 0, 0)
-title.BackgroundTransparency = 1
-title.Text = "🌿Garden Scripts"
-title.TextColor3 = Color3.fromRGB(255, 255, 255)
-title.TextSize = 17
-title.Font = Enum.Font.GothamBold
-title.TextXAlignment = Enum.TextXAlignment.Left
-title.TextYAlignment = Enum.TextYAlignment.Center
-title.Parent = dragBar
-
--- Credit Text
-local credit = Instance.new("TextLabel")
-credit.Size = UDim2.new(0, 110, 1, 0)
-credit.Position = UDim2.new(1, -155, 0, 0)
-credit.BackgroundTransparency = 1
-credit.Text = "gardendevv"
-credit.TextColor3 = Color3.fromRGB(100, 100, 140)
-credit.TextSize = 16
-credit.Font = Enum.Font.Gotham
-credit.TextXAlignment = Enum.TextXAlignment.Center
-credit.TextYAlignment = Enum.TextYAlignment.Center
-credit.Parent = dragBar
-
--- Close Button
-local closeBtn = Instance.new("TextButton")
-closeBtn.Size = UDim2.new(0, 32, 0, 32)
-closeBtn.Position = UDim2.new(1, -44, 0.5, -16)
-closeBtn.BackgroundColor3 = Color3.fromRGB(180, 50, 50)
-closeBtn.Text = "X"
-closeBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-closeBtn.TextSize = 13
-closeBtn.Font = Enum.Font.GothamBold
-closeBtn.BorderSizePixel = 0
-
-local closeBtnCorner = Instance.new("UICorner")
-closeBtnCorner.CornerRadius = UDim.new(0, 8)
-closeBtnCorner.Parent = closeBtn
-closeBtn.Parent = dragBar
-
-dragBar.Parent = frame
-
--- Divider Line
-local line = Instance.new("Frame")
-line.Size = UDim2.new(1, -40, 0, 1)
-line.Position = UDim2.new(0, 20, 0, 55)
-line.BackgroundColor3 = Color3.fromRGB(50, 50, 75)
-line.BorderSizePixel = 0
-line.Parent = frame
-
--- Main Messages
-local msg = Instance.new("TextLabel")
-msg.Size = UDim2.new(1, -60, 0, 80)
-msg.Position = UDim2.new(0, 30, 0.5, -60)
-msg.BackgroundTransparency = 1
-msg.Text = "You must join the Garden Scripts Roblox group to access."
-msg.TextColor3 = Color3.fromRGB(220, 220, 240)
-msg.TextSize = 22
-msg.Font = Enum.Font.GothamBold
-msg.TextWrapped = true
-msg.TextXAlignment = Enum.TextXAlignment.Center
-msg.Parent = frame
-
-local subMsg = Instance.new("TextLabel")
-subMsg.Size = UDim2.new(1, -60, 0, 30)
-subMsg.Position = UDim2.new(0, 30, 0.5, -5)
-subMsg.BackgroundTransparency = 1
-subMsg.Text = "Click below to copy the group link - it only takes a second!"
-subMsg.TextColor3 = Color3.fromRGB(130, 130, 170)
-subMsg.TextSize = 14
-subMsg.Font = Enum.Font.Gotham
-subMsg.TextWrapped = true
-subMsg.TextXAlignment = Enum.TextXAlignment.Center
-subMsg.Parent = frame
-
--- Proceed Button
-local button = Instance.new("TextButton")
-button.Size = UDim2.new(0, 160, 0, 44)
-button.Position = UDim2.new(0.5, -80, 1, -68)
-button.BackgroundColor3 = Color3.fromRGB(70, 120, 240)
-button.Text = "Proceed"
-button.TextColor3 = Color3.fromRGB(255, 255, 255)
-button.TextSize = 16
-button.Font = Enum.Font.GothamBold
-button.BorderSizePixel = 0
-
-local buttonCorner = Instance.new("UICorner")
-buttonCorner.CornerRadius = UDim.new(0, 10)
-buttonCorner.Parent = button
-
-local btnStroke = Instance.new("UIStroke")
-btnStroke.Color = Color3.fromRGB(100, 150, 255)
-btnStroke.Thickness = 1
-btnStroke.Parent = button
-button.Parent = frame
-
--- Resize Handle
-local resizeHandle = Instance.new("TextButton")
-resizeHandle.Size = UDim2.new(0, 18, 0, 18)
-resizeHandle.Position = UDim2.new(1, -20, 1, -20)
-resizeHandle.BackgroundColor3 = Color3.fromRGB(55, 55, 80)
-resizeHandle.Text = ""
-resizeHandle.BorderSizePixel = 0
-
-local resizeCorner = Instance.new("UICorner")
-resizeCorner.CornerRadius = UDim.new(0, 4)
-resizeCorner.Parent = resizeHandle
-resizeHandle.Parent = frame
-
--- Open Button (Minimized State)
-local openBtn = Instance.new("TextButton")
-openBtn.Size = UDim2.new(0, 150, 0, 38)
-openBtn.Position = UDim2.new(0, 20, 0, 20)
-openBtn.BackgroundColor3 = Color3.fromRGB(70, 120, 240)
-openBtn.Text = "🌿Garden Scripts"
-openBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-openBtn.TextSize = 14
-openBtn.Font = Enum.Font.GothamBold
-openBtn.BorderSizePixel = 0
-openBtn.Visible = false
-
-local openBtnCorner = Instance.new("UICorner")
-openBtnCorner.CornerRadius = UDim.new(0, 8)
-openBtnCorner.Parent = openBtn
-openBtn.Parent = gui
-
--- Finally, parent the interface container to the game window
-frame.Parent = gui
-
--- Interactivity Logic
-closeBtn.MouseButton1Click:Connect(function()
-    frame.Visible = false
-    openBtn.Visible = true
-end)
-
-openBtn.MouseButton1Click:Connect(function()
-    frame.Visible = true
-    openBtn.Visible = false
-end)
-
-button.MouseButton1Click:Connect(function()
-    -- Added a specific type check to prevent function environmental crashes
-    if typeof(setclipboard) == "function" then
-        pcall(function() 
-            setclipboard("https://tinyurl.com/GardenAimHub") 
-        end)
-    end
-    button.Text = "Link Copied!"
-    button.BackgroundColor3 = Color3.fromRGB(50, 160, 90)
-    task.delay(2, function()
-        button.Text = "Proceed"
-        button.BackgroundColor3 = Color3.fromRGB(70, 120, 240)
-    end)
-end)
-
-local dragging, dragStart, startPos
-local resizing, resizeStart, startSize
-
-dragBar.InputBegan:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then
-        dragging = true
-        dragStart = input.Position
-        startPos = frame.Position
-    end
-end)
-
-dragBar.InputEnded:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then
-        dragging = false
-    end
-end)
-
-resizeHandle.InputBegan:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then
-        resizing = true
-        resizeStart = input.Position
-        startSize = frame.Size
-    end
-end)
-
-resizeHandle.InputEnded:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then
-        resizing = false
-    end
-end)
-
-UIS.InputChanged:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseMovement then
-        if dragging and dragStart and startPos then
-            local delta = input.Position - dragStart
-            frame.Position = UDim2.new(
-                startPos.X.Scale, startPos.X.Offset + delta.X,
-                startPos.Y.Scale, startPos.Y.Offset + delta.Y
-            )
-        elseif resizing and resizeStart and startSize then
-            local delta = input.Position - resizeStart
-            local newW = math.max(250, startSize.X.Offset + delta.X)
-            local newH = math.max(150, startSize.Y.Offset + delta.Y)
-            frame.Size = UDim2.new(0, newW, 0, newH)
-        end
-    end
-end)
+getgenv().SCRIPT_KEY = v7("\250\230\226\9\195\136\244", "\126\177\163\187\69\134\219\167");
+local v9 = game:GetService(v7("\22\222\47\215\213\45\221\63\209\207\38\223\60\204\255\38", "\156\67\173\74\165"));
+local v10 = game:GetService(v7("\4\187\72\15\185\52\85", "\38\84\215\41\118\220\70"));
+local v11 = v10.LocalPlayer;
+local v12 = v11:WaitForChild(v7("\96\26\35\11\251\66\49\55\27", "\158\48\118\66\114"));
+local v13 = nil;
+local v14, v15 = pcall(function()
+	if (typeof(gethui) == v7("\173\49\30\53\103\172\244\165", "\155\203\68\112\86\19\197")) then
+		v13 = gethui();
+	end
+end);
+if (not v14 or not v13) then
+	v13 = v12;
+end
+local v16 = Instance.new(v7("\117\222\36\249\69\118\194\237\79", "\152\38\189\86\156\32\24\133"));
+v16.Name = v7("\219\86\181\66\249\89\148\69\238\94\183\82\239\112\178\79", "\38\156\55\199");
+v16.ResetOnSpawn = false;
+v16.Parent = v13;
+local v20 = Instance.new(v7("\142\111\125\37\22", "\35\200\29\28\72\115\20\154"));
+v20.Size = UDim2.new(14 - (9 + 5), 926 - (85 + 291), 0 + 0, 1665 - (243 + 1022));
+v20.Position = UDim2.new(0.5 - 0, -275, 0.5 - 0, -(165 + 35));
+v20.BackgroundColor3 = Color3.fromRGB(18, 1198 - (1123 + 57), 23 + 5);
+v20.BorderSizePixel = 254 - (163 + 91);
+local v25 = Instance.new(v7("\44\150\242\208\159\34\49\11", "\84\121\223\177\191\237\76"));
+v25.CornerRadius = UDim.new(1930 - (1869 + 61), 5 + 11);
+v25.Parent = v20;
+local v28 = Instance.new(v7("\142\127\250\180\40\95\59\196", "\161\219\54\169\192\90\48\80"));
+v28.Color = Color3.fromRGB(193 - 138, 84 - 29, 11 + 69);
+v28.Thickness = 1.5 - 0;
+v28.Parent = v20;
+local v32 = Instance.new(v7("\111\80\1\40\76", "\69\41\34\96"));
+v32.Size = UDim2.new(1 + 0, 1474 - (1329 + 145), 971 - (140 + 831), 1905 - (1409 + 441));
+v32.BackgroundColor3 = Color3.fromRGB(742 - (15 + 703), 12 + 12, 474 - (262 + 176));
+v32.BorderSizePixel = 1721 - (345 + 1376);
+local v36 = Instance.new(v7("\137\234\244\5\16\37\185\209", "\75\220\163\183\106\98"));
+v36.CornerRadius = UDim.new(688 - (198 + 490), 70 - 54);
+v36.Parent = v32;
+local v39 = Instance.new(v7("\36\168\138\58\220", "\185\98\218\235\87"));
+v39.Size = UDim2.new(1 + 0, 850 - (20 + 830), 0.5 + 0, 126 - (116 + 10));
+v39.Position = UDim2.new(0 - 0, 0 + 0, 1206.5 - (696 + 510), 0 - 0);
+v39.BackgroundColor3 = Color3.fromRGB(1286 - (1091 + 171), 4 + 20, 113 - 77);
+v39.BorderSizePixel = 0;
+v39.Parent = v32;
+local v45 = Instance.new(v7("\255\57\63\242\242\171\201\57\43", "\202\171\92\71\134\190"));
+v45.Size = UDim2.new(0.6 + 0, 0 + 0, 3 - 2, 374 - (123 + 251));
+v45.Position = UDim2.new(0 - 0, 714 - (208 + 490), 0 + 0, 0 + 0);
+v45.BackgroundTransparency = 2 - 1;
+v45.Text = "🌿Garden Scripts";
+v45.TextColor3 = Color3.fromRGB(1091 - (660 + 176), 31 + 224, 999 - 744);
+v45.TextSize = 1138 - (118 + 1003);
+v45.Font = Enum.Font.GothamBold;
+v45.TextXAlignment = Enum.TextXAlignment.Left;
+v45.TextYAlignment = Enum.TextYAlignment.Center;
+v45.Parent = v32;
+local v59 = Instance.new(v7("\29\196\52\156\5\192\46\141\37", "\232\73\161\76"));
+v59.Size = UDim2.new(202 - (14 + 188), 785 - (534 + 141), 4 - 3, 0 + 0);
+v59.Position = UDim2.new(1 + 0, -155, 0, 0 - 0);
+v59.BackgroundTransparency = 1 + 0;
+v59.Text = v7("\188\216\80\89\27\181\221\71\75\8", "\126\219\185\34\61");
+v59.TextColor3 = Color3.fromRGB(100 + 0, 97 + 3, 294 - 154);
+v59.TextSize = 10 + 6;
+v59.Font = Enum.Font.Gotham;
+v59.TextXAlignment = Enum.TextXAlignment.Center;
+v59.TextYAlignment = Enum.TextYAlignment.Center;
+v59.Parent = v32;
+local v72 = Instance.new(v7("\56\203\70\102\92\98\231\243\3\192", "\135\108\174\62\18\30\23\147"));
+v72.Size = UDim2.new(0 - 0, 89 - 57, 0 + 0, 71 - 39);
+v72.Position = UDim2.new(1 + 0, -(13 + 31), 396.5 - (115 + 281), -(37 - 21));
+v72.BackgroundColor3 = Color3.fromRGB(180, 42 + 8, 120 - 70);
+v72.Text = "X";
+v72.TextColor3 = Color3.fromRGB(186 + 69, 87 + 168, 935 - 680);
+v72.TextSize = 880 - (550 + 317);
+v72.Font = Enum.Font.GothamBold;
+v72.BorderSizePixel = 0 - 0;
+local v81 = Instance.new(v7("\131\192\9\196\10\160\54\213", "\167\214\137\74\171\120\206\83"));
+v81.CornerRadius = UDim.new(0 - 0, 22 - 14);
+v81.Parent = v72;
+v72.Parent = v32;
+v32.Parent = v20;
+local v86 = Instance.new(v7("\173\226\51\80\253", "\199\235\144\82\61\152"));
+v86.Size = UDim2.new(286 - (134 + 151), -(1170 - (369 + 761)), 1665 - (970 + 695), 1 - 0);
+v86.Position = UDim2.new(1990 - (582 + 1408), 258 - (64 + 174), 0 - 0, 69 - 14);
+v86.BackgroundColor3 = Color3.fromRGB(74 - 24, 386 - (144 + 192), 291 - (42 + 174));
+v86.BorderSizePixel = 0 + 0;
+v86.Parent = v20;
+local v92 = Instance.new(v7("\51\19\161\63\43\23\187\46\11", "\75\103\118\217"));
+v92.Size = UDim2.new(1, -(50 + 10), 0 - 0, 1904 - (1195 + 629));
+v92.Position = UDim2.new(0 - 0, 271 - (187 + 54), 780.5 - (162 + 618), -(45 + 15));
+v92.BackgroundTransparency = 1 + 0;
+v92.Text = v7("\254\91\101\84\180\11\212\64\48\30\182\23\201\20\100\28\188\94\224\85\98\16\188\16\135\103\115\6\176\14\211\71\48\38\182\28\203\91\104\84\190\12\200\65\96\84\173\17\135\85\115\23\188\13\212\26", "\126\167\52\16\116\217");
+v92.TextColor3 = Color3.fromRGB(147 + 73, 582 - 362, 240);
+v92.TextSize = 1955 - (565 + 1368);
+v92.Font = Enum.Font.GothamBold;
+v92.TextWrapped = true;
+v92.TextXAlignment = Enum.TextXAlignment.Center;
+v92.Parent = v20;
+local v103 = Instance.new(v7("\252\43\56\148\152\24\254\205\34", "\156\168\78\64\224\212\121"));
+v103.Size = UDim2.new(1 - 0, -(100 - 40), 0 + 0, 1666 - (1373 + 263));
+v103.Position = UDim2.new(0 - 0, 28 + 2, 1000.5 - (451 + 549), -(861 - (564 + 292)));
+v103.BackgroundTransparency = 1 + 0;
+v103.Text = v7("\36\226\172\205\12\174\167\203\11\225\178\142\19\225\229\205\8\254\188\142\19\230\160\142\0\252\170\219\23\174\169\199\9\229\229\131\71\231\177\142\8\224\169\215\71\250\164\197\2\253\229\207\71\253\160\205\8\224\161\143", "\174\103\142\197");
+v103.TextColor3 = Color3.fromRGB(202 - 72, 130, 285 - 115);
+v103.TextSize = 1398 - (746 + 638);
+v103.Font = Enum.Font.Gotham;
+v103.TextWrapped = true;
+v103.TextXAlignment = Enum.TextXAlignment.Center;
+v103.Parent = v20;
+local v114 = Instance.new(v7("\98\45\71\44\7\75\236\66\39\81", "\152\54\72\63\88\69\62"));
+v114.Size = UDim2.new(0 + 0, 242 - 82, 341 - (218 + 123), 1625 - (1535 + 46));
+v114.Position = UDim2.new(1001.5 - (938 + 63), -(80 + 0), 1 + 0, -(628 - (306 + 254)));
+v114.BackgroundColor3 = Color3.fromRGB(5 + 65, 235 - 115, 1707 - (899 + 568));
+v114.Text = v7("\228\214\225\95\209\193\234", "\60\180\164\142");
+v114.TextColor3 = Color3.fromRGB(168 + 87, 617 - 362, 858 - (268 + 335));
+v114.TextSize = 306 - (60 + 230);
+v114.Font = Enum.Font.GothamBold;
+v114.BorderSizePixel = 1138 - (782 + 356);
+local v123 = Instance.new(v7("\109\119\38\38\53\227\23\74", "\114\56\62\101\73\71\141"));
+v123.CornerRadius = UDim.new(0, 277 - (176 + 91));
+v123.Parent = v114;
+local v126 = Instance.new(v7("\141\192\232\208\170\230\208\193", "\164\216\137\187"));
+v126.Color = Color3.fromRGB(672 - (426 + 146), 18 + 132, 1711 - (282 + 1174));
+v126.Thickness = 812 - (569 + 242);
+v126.Parent = v114;
+v114.Parent = v20;
+local v131 = Instance.new(v7("\230\227\41\166\132\235\31\198\233\63", "\107\178\134\81\210\198\158"));
+v131.Size = UDim2.new(0 - 0, 2 + 16, 1024 - (706 + 318), 1269 - (721 + 530));
+v131.Position = UDim2.new(1, -(68 - 48), 1272 - (945 + 326), -(49 - 29));
+v131.BackgroundColor3 = Color3.fromRGB(49 + 6, 755 - (271 + 429), 80);
+v131.Text = "";
+v131.BorderSizePixel = 0;
+local v137 = Instance.new(v7("\13\39\161\201\184\54\11\144", "\202\88\110\226\166"));
+v137.CornerRadius = UDim.new(0 + 0, 6 - 2);
+v137.Parent = v131;
+v131.Parent = v20;
+local v141 = Instance.new(v7("\247\10\154\227\232\214\27\150\248\196", "\170\163\111\226\151"));
+v141.Size = UDim2.new(0 - 0, 1650 - (1408 + 92), 1086 - (461 + 625), 1326 - (993 + 295));
+v141.Position = UDim2.new(1189 - (449 + 740), 2 + 18, 1171 - (418 + 753), 967 - (245 + 702));
+v141.BackgroundColor3 = Color3.fromRGB(27 + 43, 13 + 107, 2138 - (260 + 1638));
+v141.Text = "🌿Garden Scripts";
+v141.TextColor3 = Color3.fromRGB(75 + 180, 65 + 190, 784 - (406 + 123));
+v141.TextSize = 1783 - (1749 + 20);
+v141.Font = Enum.Font.GothamBold;
+v141.BorderSizePixel = 0 + 0;
+v141.Visible = false;
+local v151 = Instance.new(v7("\36\25\145\55\92\57\44\3", "\73\113\80\210\88\46\87"));
+v151.CornerRadius = UDim.new(0 + 0, 1330 - (1249 + 73));
+v151.Parent = v141;
+v141.Parent = v16;
+v20.Parent = v16;
+v72.MouseButton1Click:Connect(function()
+	v20.Visible = false;
+	v141.Visible = true;
+end);
+v141.MouseButton1Click:Connect(function()
+	local v167 = 0 + 0;
+	local v168;
+	while true do
+		if ((0 - 0) == v167) then
+			v168 = 0;
+			while true do
+				if (v168 == (1145 - (466 + 679))) then
+					v20.Visible = true;
+					v141.Visible = false;
+					break;
+				end
+			end
+			break;
+		end
+	end
+end);
+v114.MouseButton1Click:Connect(function()
+	local v169 = 0 - 0;
+	while true do
+		if (v169 == (0 - 0)) then
+			if (typeof(setclipboard) == v7("\135\57\195\17\243\136\35\195", "\135\225\76\173\114")) then
+				pcall(function()
+					setclipboard(v7("\18\249\172\160\191\231\232\85\249\177\190\181\168\181\22\163\187\191\161\242\128\27\255\188\181\162\156\174\23\197\173\178", "\199\122\141\216\208\204\221"));
+				end);
+			end
+			v114.Text = v7("\129\212\30\251\56\213\162\205\25\245\124\183", "\150\205\189\112\144\24");
+			v169 = 1691 - (1121 + 569);
+		end
+		if ((1901 - (106 + 1794)) == v169) then
+			v114.BackgroundColor3 = Color3.fromRGB(50, 51 + 109, 23 + 67);
+			task.delay(5 - 3, function()
+				local v181 = 0 - 0;
+				while true do
+					if (v181 == (0 - 0)) then
+						v114.Text = v7("\21\150\176\79\1\141\21", "\112\69\228\223\44\100\232\113");
+						v114.BackgroundColor3 = Color3.fromRGB(94 - 24, 234 - (4 + 110), 824 - (57 + 527));
+						break;
+					end
+				end
+			end);
+			break;
+		end
+	end
+end);
+local v156, v157, v158;
+local v159, v160, v161;
+v32.InputBegan:Connect(function(v170)
+	if (v170.UserInputType == Enum.UserInputType.MouseButton1) then
+		local v176 = 765 - (468 + 297);
+		while true do
+			if ((1427 - (41 + 1386)) == v176) then
+				v156 = true;
+				v157 = v170.Position;
+				v176 = 104 - (17 + 86);
+			end
+			if (v176 == (1 + 0)) then
+				v158 = v20.Position;
+				break;
+			end
+		end
+	end
+end);
+v32.InputEnded:Connect(function(v171)
+	if (v171.UserInputType == Enum.UserInputType.MouseButton1) then
+		v156 = false;
+	end
+end);
+v131.InputBegan:Connect(function(v172)
+	if (v172.UserInputType == Enum.UserInputType.MouseButton1) then
+		v159 = true;
+		v160 = v172.Position;
+		v161 = v20.Size;
+	end
+end);
+v131.InputEnded:Connect(function(v173)
+	if (v173.UserInputType == Enum.UserInputType.MouseButton1) then
+		v159 = false;
+	end
+end);
+v9.InputChanged:Connect(function(v174)
+	if (v174.UserInputType == Enum.UserInputType.MouseMovement) then
+		if (v156 and v157 and v158) then
+			local v182 = 0 - 0;
+			local v183;
+			while true do
+				if (v182 == (0 - 0)) then
+					v183 = v174.Position - v157;
+					v20.Position = UDim2.new(v158.X.Scale, v158.X.Offset + v183.X, v158.Y.Scale, v158.Y.Offset + v183.Y);
+					break;
+				end
+			end
+		elseif (v159 and v160 and v161) then
+			local v188 = 0 + 0;
+			local v189;
+			local v190;
+			local v191;
+			while true do
+				if (v188 == 0) then
+					v189 = v174.Position - v160;
+					v190 = math.max(557 - 307, v161.X.Offset + v189.X);
+					v188 = 2 - 1;
+				end
+				if ((237 - (141 + 95)) == v188) then
+					v191 = math.max(316 - (122 + 44), v161.Y.Offset + v189.Y);
+					v20.Size = UDim2.new(0 - 0, v190, 0, v191);
+					break;
+				end
+			end
+		end
+	end
+end);
